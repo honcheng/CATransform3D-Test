@@ -129,6 +129,16 @@ static char const * const maxValueTagKey = "maxValueTagKey";
                 [button setTitle:@"1.0" forState:UIControlStateNormal];
                 [button setMaxValue:10];
             }
+            else if (row==0 && col==1)
+            {
+                [button setTitle:@"0.0" forState:UIControlStateNormal];
+                [button setMaxValue:10];
+            }
+            else if (row==1 && col==0)
+            {
+                [button setTitle:@"0.0" forState:UIControlStateNormal];
+                [button setMaxValue:10];
+            }
             else if (row==3)
             {
                 [button setTitle:@"0.0" forState:UIControlStateNormal];
@@ -192,8 +202,6 @@ static char const * const maxValueTagKey = "maxValueTagKey";
     [self.view addSubview:zRotationLabel];
     self.zRotationLabel = zRotationLabel;
     [self.zRotationLabel setText:@"z: 0.0˚"];
-    
-    
     
     UIButton *resetButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [resetButton setFrame:CGRectMake(([self.view bounds].size.width-200)/2, [self.view bounds].size.height-70, 200, 44)];
@@ -294,41 +302,6 @@ static char const * const maxValueTagKey = "maxValueTagKey";
 
 - (void)onApplyButtonPressed
 {
-//    CATransform3D transformation = CATransform3DIdentity;
-//    for (int row=0; row<4; row++)
-//    {
-//        for (int col=0; col<4; col++)
-//        {
-//            UIButton *button = (UIButton*)[self.matrixBoxView viewWithTag:TAG_BUTTON + col + 4*row];
-//            NSString *text = [[button titleLabel] text];
-//            float value = [text floatValue];
-//            
-//            if (row==0 && col==0) transformation.m11 = value;
-//            else if (row==0 && col==1) transformation.m12 = value;
-//            else if (row==0 && col==2) transformation.m13 = value;
-//            else if (row==0 && col==3) transformation.m14 = value;
-//            else if (row==1 && col==0) transformation.m21 = value;
-//            else if (row==1 && col==1) transformation.m22 = value;
-//            else if (row==1 && col==2) transformation.m23 = value;
-//            else if (row==1 && col==3) transformation.m24 = value;
-//            else if (row==2 && col==0) transformation.m31 = value;
-//            else if (row==2 && col==1) transformation.m32 = value;
-//            else if (row==2 && col==2) transformation.m33 = value;
-//            else if (row==2 && col==3) transformation.m34 = value;
-//            else if (row==3 && col==0) transformation.m41 = value;
-//            else if (row==3 && col==1) transformation.m42 = value;
-//            else if (row==3 && col==2) transformation.m43 = value;
-//            else if (row==3 && col==3) transformation.m44 = value;
-//        }
-//    }
-//    
-//    [UIView animateWithDuration:0.5 animations:^{
-//        self.testView.layer.transform = transformation;
-//    } completion:^(BOOL finished) {
-//        
-//        
-//    }];
-    
     [self applyTransformation];
 }
 
