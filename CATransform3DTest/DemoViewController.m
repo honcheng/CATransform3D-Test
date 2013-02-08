@@ -39,7 +39,7 @@ static char const * const maxValueTagKey = "maxValueTagKey";
 @property (nonatomic, weak) UILabel *xRotationLabel, *yRotationLabel, *zRotationLabel;
 @property (nonatomic, assign) int selectedRow, selectedColumn;
 @property (nonatomic, assign) float initialXRotation, initialYRotation, initialZRotation;
-@property (nonatomic, assign) float initialM34Value;
+@property (nonatomic, assign) float initialM14Value, initialM24Value;
 @property (nonatomic, assign) float initialXScale, initialYScale;
 @property (nonatomic, strong) UISlider *xAnchorSliderView, *yAnchorSliderView;
 @end
@@ -109,32 +109,17 @@ static char const * const maxValueTagKey = "maxValueTagKey";
             [button setTitleColor:[UIColor redColor] forState:UIControlStateSelected];
             [button addTarget:self action:@selector(onButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
             
-            if (row==0 && col==0)
+            if ((row==0 && col==0) || (row==1 && col==1) || (row==2 && col==2) ||  (row==3 && col==3))
             {
                 [button setTitle:@"1.0" forState:UIControlStateNormal];
                 [button setMaxValue:10];
             }
-            else if (row==1 && col==1)
-            {
-                [button setTitle:@"1.0" forState:UIControlStateNormal];
-                [button setMaxValue:10];
-            }
-            else if (row==2 && col==2)
-            {
-                [button setTitle:@"1.0" forState:UIControlStateNormal];
-                [button setMaxValue:10];
-            }
-            else if (row==3 && col==3)
-            {
-                [button setTitle:@"1.0" forState:UIControlStateNormal];
-                [button setMaxValue:10];
-            }
-            else if (row==0 && col==1)
+            else if ((row==0 && col==1) || (row==1 && col==0))
             {
                 [button setTitle:@"0.0" forState:UIControlStateNormal];
                 [button setMaxValue:10];
             }
-            else if (row==1 && col==0)
+            else if ((row==2 && col==0) || (row==0 && col==2))
             {
                 [button setTitle:@"0.0" forState:UIControlStateNormal];
                 [button setMaxValue:10];
@@ -428,15 +413,19 @@ static char const * const maxValueTagKey = "maxValueTagKey";
 {
     CGPoint translation = [gesture translationInView:self.view];
     UIGestureRecognizerState state = [gesture state];
-    UIButton *button = (UIButton*)[self.matrixBoxView viewWithTag:TAG_BUTTON + 11];
+    UIButton *button14 = (UIButton*)[self.matrixBoxView viewWithTag:TAG_BUTTON + 3];
+    UIButton *button24 = (UIButton*)[self.matrixBoxView viewWithTag:TAG_BUTTON + 7];
     if (state==UIGestureRecognizerStateBegan)
     {
-        self.initialM34Value = [[[button titleLabel] text] floatValue];
+        self.initialM14Value = [[[button14 titleLabel] text] floatValue];
+        self.initialM24Value = [[[button24 titleLabel] text] floatValue];
     }
     else if (state==UIGestureRecognizerStateChanged)
     {
-        float value = self.initialM34Value + translation.y/10000;
-        [button setTitle:[NSString stringWithFormat:@"%.4f", value] forState:UIControlStateNormal];
+        float m14 = self.initialM14Value + translation.x/10000;
+        float m24 = self.initialM24Value + translation.y/10000;
+        [button14 setTitle:[NSString stringWithFormat:@"%.4f", m14] forState:UIControlStateNormal];
+        [button24 setTitle:[NSString stringWithFormat:@"%.4f", m24] forState:UIControlStateNormal];
         
         [self applyTransformation];
     }
